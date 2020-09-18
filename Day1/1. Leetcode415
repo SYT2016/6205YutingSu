@@ -1,0 +1,36 @@
+class Solution {
+    public String addStrings(String num1, String num2) {
+     
+    StringBuilder res=new StringBuilder("");
+
+    int L1=num1.length()-1, L2=num2.length()-1;//最后一位的位置
+    int carry=0;//进位
+
+    while(L1>=0||L2>=0){
+        
+
+        int a= L1>=0 ? num1.charAt(L1) -'0':0;//注意是》=0
+
+        int b= L2>=0 ? num2.charAt(L2) -'0':0;
+
+        int sum=a+b+carry;
+
+        carry=sum/10;
+
+        res.append(sum%10);
+
+
+        L1--;
+        L2--;
+
+
+    }
+
+    if(carry==1)
+    res.append(1);
+
+    return res.reverse().toString();
+
+
+    }
+}
