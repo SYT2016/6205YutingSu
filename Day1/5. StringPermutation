@@ -1,0 +1,18 @@
+
+
+public boolean isPermutation(String s1, String s2) {
+    if (s1 == null || s2 == null || s1.length() != s2.length()) return false;
+    int[] counts = new int[256];
+    for (char ch : s1.toCharArray()) {
+        counts[ch]++;
+    }
+    for (char ch : s2.toCharArray()) {
+        counts[ch]--;
+        if (counts[ch] < 0) return false;
+    }
+    return true;
+}
+//定义一个长度为ASCII 128的int数组，数组内存放各个字符的出现次数，
+//遍历第一个字符串时，将字符对应位置的值加1，
+//然后遍历第二个字符串时将该值减1，若此时出现负值，说明两边字符不一致，直接返回false即可。
+
