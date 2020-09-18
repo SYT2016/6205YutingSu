@@ -1,0 +1,53 @@
+class Node {
+public:
+    int val;
+    Node* next;
+
+    Node() {}
+
+    Node(int _val) {
+        val = _val;
+        next = NULL;
+    }
+
+    Node(int _val, Node* _next) {
+        val = _val;
+        next = _next;
+    }
+};
+*/
+
+class Solution {
+public:
+    Node* insert(Node* head, int insertVal) {
+        if(!head)
+        {
+            head = new Node(insertVal);
+            head->next = head;
+            return head;
+        }
+        Node *newnode = new Node(insertVal);
+        Node* biggest = head, *cur = head;
+        int biggestVal = head->val;//max
+        while(true)
+        {
+            if(cur->val <= insertVal && cur->next->val >= insertVal)
+            {	
+                newnode->next = cur->next;
+                cur->next = newnode;
+                return head;
+            }
+            if(cur->val >= biggestVal)
+            {	
+                biggestVal = cur->val;
+                biggest = cur;
+            }
+            if(cur->next == head)
+                break;
+            cur = cur->next;
+        }
+        newnode->next = biggest->next;
+        biggest->next = newnode;
+        return head;
+    }
+};
