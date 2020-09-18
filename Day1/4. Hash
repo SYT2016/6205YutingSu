@@ -1,0 +1,24 @@
+public class IsUnique{
+  
+    public boolean solution(String s) {
+    
+        boolean table[] = new boolean[256];// all false
+        
+        for (int i = 0; i < s.length(); i++) {
+            int ascii = (int) s.charAt(i);//字符全部变成asc码
+            
+            if (table[ascii])//某个位置为true 即存在了重复
+                return false;
+            else
+                table[ascii] = true;
+        }
+        return true;
+    }
+}
+
+
+//byte，short，int，long类型定义的数组，初始化默认是0
+//float、double类型定义的数组，默认值是0.0
+//String类型定义的数组，默认值是null
+//char类型定义的数组，默认值是‘0’（'\u0000'）
+//boolean类型定义的数组，默认值是false
