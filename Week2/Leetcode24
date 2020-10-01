@@ -1,0 +1,35 @@
+class Solution {
+    public ListNode swapPairs(ListNode head) {
+        // 特殊条件判断
+        if(head == null) {
+            return null;
+        }
+        if(head.next == null) {
+            return head;
+        }
+        // 辅助节点listNode、temp
+        ListNode listNode = new ListNode(0);
+        listNode.next = head;
+        ListNode temp = listNode;
+        while(true) {
+            // 跳出循环
+            if(temp.next == null || temp.next.next == null) {
+                break;
+            }
+            // 判断交换节点条件
+            if(temp.next != null && temp.next.next != null) {
+                // 构建一个新的节点
+                int num = temp.next.val;
+                ListNode cur = new ListNode(num);
+                // 增删操作
+                temp.next = temp.next.next;
+                temp = temp.next;
+                cur.next = temp.next;
+                temp.next = cur;
+            }
+            temp = temp.next;
+        }
+        return listNode.next;
+    }
+}
+
