@@ -1,0 +1,31 @@
+class Solution {
+
+    public ListNode oddEvenList(ListNode head) {
+        //记录一下结果的头
+        ListNode res = head;
+        //排除一些极端情况
+        if(head == null || head.next == null){
+            return res;
+        }
+        ListNode fir = head;        //单数
+        ListNode sce = head.next;   //双数
+        ListNode r = sce;           //记录一下双数的头
+        head = head.next.next;
+        while(head != null){       //每隔两个节点做一个循环
+            fir.next = head;       //每次head进来为单数，先存到单数链表中
+            fir = head;
+
+            if(head.next == null){ 
+                break;
+            }else{                 
+                sce.next = head.next;
+                sce = head.next;
+                head = head.next.next;
+            }
+        }
+        sce.next = null;         
+        fir.next = r;             
+        return res;           
+    }
+}
+
