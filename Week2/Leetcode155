@@ -1,0 +1,29 @@
+class MinStack {
+    //成员变量
+    private LinkedList<Integer> stackA;
+    private LinkedList<Integer> stackB;
+    //构造方法
+    public MinStack() {
+        stackA = new LinkedList<>();
+        stackB = new LinkedList<>();
+    }   
+    //成员方法
+    public void push(int x) {
+        stackA.push(x);
+        if(stackB.isEmpty() || x <= stackB.peek()){
+            stackB.push(x);
+        }
+    }    
+    public void pop() {
+        int e = stackA.pop();
+        if(!stackB.isEmpty() && e == stackB.peek()){
+            stackB.pop();
+        }
+    }   
+    public int top() {
+        return stackA.peek();
+    }
+    public int getMin() {
+        return stackB.peek();
+    }
+}
