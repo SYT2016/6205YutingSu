@@ -1,0 +1,24 @@
+import java.util.ArrayDeque;
+import java.util.Deque;
+
+public class Solution {
+    public String removeDuplicateLetters(String s) {
+        char[] chars = s.toCharArray();
+        Deque<Character> stack = new ArrayDeque<>();
+        for (int curIndex = 0; curIndex < chars.length; curIndex++) {
+            if (!stack.isEmpty() && stack.contains(chars[curIndex])) {
+                continue;
+            }
+            while (!stack.isEmpty() && stack.peekLast() > chars[curIndex] && s.indexOf(stack.peekLast(), curIndex) > 0) {
+                stack.removeLast();
+            }
+            stack.addLast(chars[curIndex]);
+        }
+        StringBuilder res = new StringBuilder();
+        for (Character curChar : stack) {
+            res.append(curChar);
+        }
+        return res.toString();
+    }
+}
+
