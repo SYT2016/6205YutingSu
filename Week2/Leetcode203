@@ -1,0 +1,11 @@
+class Solution {
+    public ListNode removeElements(ListNode head, int val) {
+        // 将整个链表想象成head+子链表
+        if (head == null)
+            return null;
+        // 先处理子链表
+        head.next = removeElements(head.next, val);
+        // 再处理头结点
+        return head.val == val ? head.next : head;
+    }
+}
