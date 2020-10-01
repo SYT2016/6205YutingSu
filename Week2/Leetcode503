@@ -1,0 +1,25 @@
+public static int[] nextGreaterElements(int[] nums) {
+        // 构建用于记录结果的数组，初始化为-1
+        int res[] = new int[nums.length];
+        for (int i = 0; i < nums.length; i++) {
+            res[i] = -1;
+        }
+
+        for (int i = 0; i < nums.length; i++) {
+            // 对于每一个元素i，向后遍历num.lenght长度
+            int count = 0;
+            int j = i + 1;
+            while (count < nums.length) {
+                // 对下标进行取模操作
+                j = j % nums.length;
+                if (nums[j] > nums[i]) {
+                    res[i] = nums[j];
+                    break;
+                }
+                j++;
+                count++;
+            }
+        }
+        return res;
+    }
+
