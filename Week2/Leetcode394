@@ -1,0 +1,39 @@
+class Solution {
+    public String decodeString(String s) {
+        int lastLeftLittle = s.lastIndexOf('[');
+        int firstRightLittle = s.indexOf(']', lastLeftLittle);
+        if (lastLeftLittle < 0 || firstRightLittle < 0) {
+            return s;
+        }
+        // 找最内层[]中间的字符串
+        String repeatStr = s.substring(lastLeftLittle + 1, firstRightLittle);
+
+        // 找出中括号内的字符串重复的次数
+        StringBuilder timesStr = new StringBuilder();
+        char[] chars = s.toCharArray();
+        for (int i = lastLeftLittle - 1; i >= 0; i--) {
+            if (chars[i] >= '0' && chars[i] <= '9') {
+                timesStr.insert(0, chars[i]);
+            } else {
+                break;
+            }
+        }
+        int times = Integer.parseInt(timesStr.toString());
+        // 把字符串、中括号和重复的次数找出来
+        String substring = s.substring(lastLeftLittle - timesStr.length(), firstRightLittle + 1);
+        // 把上一步找出来的字符串替换为解码之后的字符串，再把新字符串作为递归的入参
+        return decodeString(s.replace(substring, getRepeatStr(repeatStr, times)));
+    }
+
+    /**
+     * 求解析后的字符串是什么样子的
+     */
+    private String getRepeatStr(String repeatStr, int times) {
+        StringBuilder unzipRepeat = new StringBuilder();
+        for (int i = 0; i < times; i++) {
+            unzipRepeat.append(repeatStr);
+        }
+        return unzipRepeat.toString();
+    }
+}
+
