@@ -1,0 +1,25 @@
+class Solution {
+    public int[] nextGreaterElement(int[] nums1, int[] nums2) {
+        int len1 = nums1.length;
+        int len2 = nums2.length;
+        if(len1 == 0 || len2 ==0) return new int[0];
+        int[] next1 = new int[len1];
+        int[] next2 = new int[len2];
+        next2[len2-1] = -1;
+        for(int i = len2-2;i>=0; i--){
+            if(nums2[i] < nums2[i+1]) next2[i] = i+1;
+            else{
+                int next = next2[i+1];
+                while(next!=-1 && nums2[i] > nums2[next]) next= next2[next];
+                next2[i] = next;
+            }
+        }
+        for(int i = 0; i<len1;i++){
+            int cur = nums1[i];
+            int j = 0;
+            while(nums2[j] != cur) j++;
+            next1[i] = next2[j] == -1?-1:nums2[next2[j]];
+        }
+        return next1;
+    }
+}
