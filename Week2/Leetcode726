@@ -1,0 +1,79 @@
+class Solution {
+    public String countOfAtoms(String formula) {
+        //括号递归计数
+        Map<String,Integer> countMap = innerCount(formula);
+        //排序输出
+        java.util.SortedMap<String,Integer> sortedMap = new TreeMap<>();
+        sortedMap.putAll(countMap);
+        StringBuilder sb = new StringBuilder();
+        for(Map.Entry<String,Integer> entity:sortedMap.entrySet()){
+            sb.append(entity.getKey())
+                .append(entity.getValue() == 1?"":entity.getValue());
+        }
+        return sb.toString();
+    }
+
+    private Map<String,Integer> innerCount(String formula){
+        Map<String,Integer> countMap = new HashMap<>();
+        char[] charArray = formula.toCharArray();
+       
+        for(int i=0;i<charArray.length;){
+            if(charArray[i]=='('){
+                //括号内字符串的处理
+                //找与'('对应的')'
+                i++;
+                int iStart = i;
+                int leftCount = 1;//左括号的个数
+                int rightCount = 0;//右括号的个数
+                while(i<charArray.length && rightCount != leftCount){
+                    if(charArray[i]=='('){
+                        leftCount++;
+                    }
+                    if(charArray[i]==')'){
+                        rightCount++;
+                    }
+                    i++;
+                }
+                //括号内的字符串
+                String innerStr = formula.substring(iStart, i - 1);
+                Map<String,Integer> innerMap = innerCount(innerStr);
+                //获取括号后面的数字
+                int num =1;               
+                int numStart = i;//数字开始位置
+                while(i<formula.length() && Character.isDigit(formula.charAt(i))){
+                    i++;
+                }
+                //括号后面的数字
+                if(i > numStart){
+                    //至少1个数字
+                    num = Integer.parseInt(formula.substring(numStart, i));
+                }
+                //将innerMap合并到countMap
+                for(Map.Entry<String, Integer> entry: innerMap.entrySet()){
+                    countMap.put(entry.getKey(),countMap.getOrDefault(entry.getKey(), 0) + entry.getValue()*num);
+                }
+            }else{
+                // Character.isUpperCase(charArray[i])
+                //原子处理，找大写字母后面的字符
+                int atomStart = i;
+                while(i+1 < charArray.length && Character.isLowerCase(charArray[i+1])){
+                    i++;
+                }
+                String atom = formula.substring(atomStart, i+1);
+                //原子后面的数字
+                int num =1;               
+                int numStart = i + 1;//数字开始位置
+                while(i + 1<formula.length() && Character.isDigit(formula.charAt(i+1))){
+                    i++;
+                }
+                if(i+1 > numStart){
+                    //至少1个数字
+                    num = Integer.parseInt(formula.substring(numStart, i+1));
+                }
+                countMap.put(atom,countMap.getOrDefault(atom, 0) + num);
+                i++;
+            }
+        }
+        return countMap;
+    }
+}
