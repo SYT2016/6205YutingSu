@@ -1,0 +1,46 @@
+public ListNode[] splitListToParts(ListNode root, int k) {
+    if (root == null) return null;
+    ListNode[] res = new ListNode[k];
+    //求出整个链表的长度
+    ListNode p = root;
+    int count = 0;
+    while (p != null) {
+        count++;
+        p = p.next;
+    }
+
+    p = root;
+
+    //1.k >= 总长度，取每个链表节点
+    if (k >= count) {
+        for (int i = 0; i < count; i++) {
+            res[i] = new ListNode(p.val);
+            p = p.next;
+        }
+    } else {
+        //2. k < 总长度，
+        int remain = count % k;
+        int preCount = count / k;
+        //记录每部分需要储存多少个链表元素
+        int[] counts = new int[k];
+        for (int i = 0; i < k; i++) {
+            counts[i] = remain-- > 0 ? preCount + 1 : preCount;
+        }
+        //遍历链表，储存元素
+        for (int i = 0; i < k; i++) {
+            //获取当前部分需要的元素个数
+            int num = counts[i];
+            res[i] = p;
+            //调整p的位置
+            while (--num > 0) {
+                p = p.next;
+            }
+            //截断链表
+            ListNode tmp = p.next;
+            p.next = null;
+            p = tmp;
+        }
+    }
+    return res;
+}
+
